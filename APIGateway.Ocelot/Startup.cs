@@ -39,7 +39,21 @@ namespace APIGateway.Ocelot
                     ValidAudience = Configuration["DefaultJwtAuth:Audience"],
 
                 };
-            });
+            }).AddJwtBearer("Gravel.App", jbo =>
+            {
+                jbo.RequireHttpsMetadata = false;
+                jbo.SaveToken = true;
+                jbo.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["TokenGravelApp:Secret"])),
+                    ValidIssuer = Configuration["TokenGravelApp:Issuer"],
+                    ValidAudience = Configuration["TokenGravelApp:Audience"],
+
+                };
+            }); ;
 
             services.AddOcelot()
             .AddConsul()
