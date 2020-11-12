@@ -9,12 +9,13 @@ namespace Timing
         static void Main(string[] args)
         {
             var Client = new RestClient("http://api.scetia.com");
-            var request = new RestRequest("/obsolete.df/user", Method.GET);
+            var request = new RestRequest("/gravel.app/customerUnit" + "", Method.GET);
             Console.WriteLine("started.");
-            while(true)
+            while (true)
             {
-                Client.Execute(request);
-                Thread.Sleep(20000);
+                var a = Client.Execute(request);
+                Console.WriteLine(DateTime.Now.ToString("hh:mm:ss") + " - " + a.ResponseStatus);
+                Thread.Sleep(18000);
             }
         }
     }
