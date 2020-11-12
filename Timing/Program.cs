@@ -10,6 +10,7 @@ namespace Timing
         {
             var Client = new RestClient("http://api.scetia.com");
             var request = new RestRequest("/gravel.app/customerUnit" + "", Method.GET);
+            request.AddHeader("scetiaSup","InnerClient");
             Console.WriteLine("started.");
             while (true)
             {
