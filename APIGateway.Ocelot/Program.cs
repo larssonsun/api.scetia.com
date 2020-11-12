@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -19,7 +20,12 @@ namespace APIGateway.Ocelot
                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>().ConfigureKestrel(o =>
+                    {
+
+                        o.Limits.RequestHeadersTimeout = TimeSpan.FromMinutes(1);
+                        o.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(30);
+                    });
                 });
     }
 }
