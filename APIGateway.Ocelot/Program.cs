@@ -23,7 +23,7 @@ namespace APIGateway.Ocelot
                     webBuilder.UseStartup<Startup>().ConfigureKestrel(o =>
                     {
 
-                        o.Limits.RequestHeadersTimeout = TimeSpan.FromMinutes(1);
+                        o.Limits.RequestHeadersTimeout = TimeSpan.FromMinutes(30);
                         o.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(30);
                     });
                 });
