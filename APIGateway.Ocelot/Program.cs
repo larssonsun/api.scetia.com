@@ -28,7 +28,7 @@ namespace APIGateway.Ocelot
                         options.Authentication.AllowAnonymous = true;
                         options.MaxConnections = null;
                         options.MaxRequestBodySize = 30000000;
-                        options.UrlPrefixes.Add("http://api.scetia.com:80");
+                        // options.UrlPrefixes.Add("http://api.scetia.com:80");
                     });
                 });
     }
