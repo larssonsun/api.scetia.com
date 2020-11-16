@@ -68,7 +68,7 @@ class Program
         {
             // Content from BBC One: Dr. Who website (©BBC)
             var request = new HttpRequestMessage(HttpMethod.Get,
-                "http://www.scetia.com/scetia.datatransfer/user.asmx");
+                "https://www.leancloud.cn/support/");
 
             var client = _clientFactory.CreateClient();
 
