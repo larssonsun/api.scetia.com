@@ -68,7 +68,7 @@ class Program
         {
             // Content from BBC One: Dr. Who website (©BBC)
             var request = new HttpRequestMessage(HttpMethod.Get,
-                "https://www.leancloud.cn/support/");
+                "http://localhost/web/shity.html");
 
             var client = _clientFactory.CreateClient();
 
