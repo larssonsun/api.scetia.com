@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.HttpSys;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace APIGateway.Ocelot
 {
@@ -11,7 +12,32 @@ namespace APIGateway.Ocelot
         private static readonly bool isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var configuration = new ConfigurationBuilder()
+            .AddJsonFile(isDevelopment ? "appsettings.Development.json" : "appsettings.json")
+            .Build();
+
+            Log.Logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(configuration)
+            .CreateLogger();
+
+            try
+            {
+                Console.Title = "api.scetia.com";
+                Log.Information("Starting apigateway host");
+                CreateHostBuilder(args).Build().Run();
+
+                return;
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Host terminated unexpectedly");
+
+                return;
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -22,14 +48,26 @@ namespace APIGateway.Ocelot
                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>().UseHttpSys(options =>
+                    // Third-party log providers
+                    webBuilder.UseSerilog((context, logger) =>
                     {
-                        // The following options are set to default values.
-                        // options.Authentication.Schemes = AuthenticationSchemes.None;
-                        // options.Authentication.AllowAnonymous = true;
-                        // options.MaxConnections = null;
-                        // options.MaxRequestBodySize = 30000000;
+                        var configuration = new ConfigurationBuilder()
+                        .AddJsonFile(isDevelopment ? "appsettings.Development.json" : "appsettings.json")
+                        .Build();
+
+                        logger.ReadFrom.Configuration(configuration);
                     });
+
+                    webBuilder.UseStartup<Startup>().UseHttpSys();
+
+                    // webBuilder.UseStartup<Startup>().UseHttpSys(options =>
+                    // {
+                    //     The following options are set to default values.
+                    //     options.Authentication.Schemes = AuthenticationSchemes.None;
+                    //     options.Authentication.AllowAnonymous = true;
+                    //     options.MaxConnections = null;
+                    //     options.MaxRequestBodySize = 30000000;
+                    // });
                 });
     }
 }
