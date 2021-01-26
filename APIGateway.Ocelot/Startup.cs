@@ -60,14 +60,18 @@ namespace APIGateway.Ocelot
             }).AddJwtBearer("Gravel.App", jbo =>
             {
                 // should add claims to headers in ocelot.json settings otherwise will throw 402
-                // 
+                // "AuthenticationOptions": {
+                // "AuthenticationProviderKey": "Gravel.App",
+                // "AllowScopes": []
+                // },
                 // "AddHeadersToRequest": {
-                // "X-IS-MANAGER": "Claims[IsManager] > value > |",
-                // "X-IS-SAMPLER": "Claims[IsSampler] > value > |",
-                // "X-USER-NAME": "Claims[UserName] > value > |",
-                // "X-USER-ID": "Claims[UserId] > value > |",
-                // "X-SUPPLIERUNIT-ID": "Claims[SupplierUnitId] > value > |",
-                // "X-USER-FULL-NAME": "Claims[UserFullName] > value > |"
+                //     "X-IS-MANAGER": "Claims[IsManager] > value > |",
+                //     "X-IS-SAMPLER": "Claims[IsSampler] > value > |",
+                //     "X-USER-NAME": "Claims[UserName] > value > |",
+                //     "X-USER-ID": "Claims[UserId] > value > |",
+                //     "X-SUPPLIERUNIT-ID": "Claims[SupplierUnitId] > value > |",
+                //     "X-USER-FULL-NAME": "Claims[UserFullName] > value > |"
+                // }
 
                 jbo.RequireHttpsMetadata = false;
                 jbo.SaveToken = true;
