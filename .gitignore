@@ -352,3 +352,4 @@ test*.*
 Properties/
 wwwroot/temp*
 *ocelot*.json
+*.jwk
